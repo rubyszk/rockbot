@@ -1,21 +1,38 @@
 <template>
   <div id="app">
-    <h1>Rockbot Lite</h1>
-    <img alt="Vue logo" src="./assets/logo.png">
+    <!-- <div class="header">
+      <h1> Rockbot HQ</h1>
+  
+    </div> -->
+    <div class="sidebar">
+      <li> Home </li>
+      <li> Search </li>
+      <li> What's Hot </li>
+    </div>    
+
+    <div class="content">
+      <Search/>
+      <UpNext/>
+    <NowPlaying/>
+    </div>
   </div>
 </template>
 
 <script>
 //header
 //footer - now playing
-// import HelloWorld from './components/HelloWorld.vue'
+import NowPlaying from './components/NowPlaying';
+import UpNext from './components/UpNext';
+import Search from './components/Search';
 
 export default {
   name: 'App',
   
-  // components: {
-  //   HelloWorld
-  // }
+  components: {
+    NowPlaying,
+    UpNext,
+    Search
+  },
   data() {
     return {
       // isLoading: false,
@@ -73,12 +90,48 @@ export default {
 </script>
 
 <style>
+
+body {
+  margin: 0px;
+  height: 100%;
+  display: flex;
+
+}
+
 #app {
+  display: flex;
+  height: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.sidebar {
+  min-width: 150px;
+  max-width: 150px;
+  min-height: 100%  !important;
+  flex: 1;
+  font-size: 18px;
+  line-height: 3;
+  padding: 5em 0 0 2em;
+  background: #293546;
+  color: white;
+  list-style: none;
+  text-align: left;
+  font-weight: 500;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  margin-top: 2em;
 }
 </style>
