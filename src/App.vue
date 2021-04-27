@@ -24,6 +24,7 @@
 import NowPlaying from './components/NowPlaying';
 import UpNext from './components/UpNext';
 import Search from './components/Search';
+import { headers } from './headers';
 
 export default {
   name: 'App',
@@ -51,8 +52,21 @@ export default {
   },
   methods: {
     fetchNowPlaying(){ 
+      // const headers = new Headers();
+      // headers.append(
+      //   "Authorization",
+      //   "api_key"
+      // )
+      console.log(process.env.VUE_APP_API_KEY)
       // API Call also fetches Queue
       // fetch from url
+      fetch("https://api.rockbot.com/v3/engage/now_playing?queue=1", {
+        headers
+      }).then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+      })
+      // 2ab742c917f872aa88644bc8f995e03159b2
       // .then((res) => res.json())
       //.then((data)=> {
         //this.nowPlaying = data.res.now_playing
@@ -74,17 +88,15 @@ export default {
     fetchTopArtists(){
       // API Call
 
-    },
-    mounted() {
+    }
+  }, 
+  mounted() {
       // Call on mount to fetch data
       // (useEffect/componentDidMount)
 
-      this.fetchNowPlaying();
-      this.fetchBrowse();
-      this.fetchTopArtists();
-    }
-
-
+    this.fetchNowPlaying();
+      // this.fetchBrowse();
+      // this.fetchTopArtists();
   }
 }
 </script>

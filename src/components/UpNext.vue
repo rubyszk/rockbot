@@ -2,6 +2,7 @@
   <div class="main">
     <h1>Up Next</h1>
     <div class="list">
+      <!-- fetch data, map, for each item render -->
       <div class="album">
         <div class="item"/>
         <div class="info">
