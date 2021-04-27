@@ -1,16 +1,13 @@
 <template>
   <footer class="nowPlaying">
     <img class="album" :src="nowPlaying.artwork_small">
-      <!-- <p>x</p> -->
-    <!-- </div> -->
     <div class="info">
       <h4> {{nowPlaying.song}} </h4>
       <p> {{nowPlaying.artist}}</p>
     </div>
     <div class="vote">
-      <button class="like"><img class="thumb" src="../assets/icons/thumbs-down-regular.svg" /></button>
-       <button class="like"><img class="thumb" src="../assets/icons/thumbs-up-regular.svg" /></button>
-      <!-- <img src="../assets/icons/thumbs-up-regular.svg"/> -->
+      <button class="like"><img class="thumb-down" src="../assets/icons/thumbs-down-regular.svg" /></button>
+      <button class="like"><img class="thumb-up" src="../assets/icons/thumbs-up-regular.svg" /></button>
     </div>
   </footer>
 </template>
@@ -33,7 +30,7 @@ export default {
   margin-left: -12em;
   width: 125%;
   height: 6em;
-  background: gray;
+  background: #4e4e4e;
   color: white;
   padding: 1em 1em 1em 2em;
 }
@@ -58,16 +55,22 @@ export default {
 .like {
   height: 75px;
   width: 75px;
-  background: none;
+  /* background: tomato; */
   margin: 0 1em ;
-  border: 3px solid black;
+  border: 5px solid lightgrey;
   border-radius: 100%;
 }
 
-.thumb {
-  height: 50px;
+.thumb-down {
+  height: 40px;
   margin: 5px 0 0 5px;
+  /* background: tomato; */
+}
 
+.thumb-up {
+  height: 40px;
+  margin: 0px 0 0 5px;
+  /* background:palegreen; */
 }
 
 h4 {

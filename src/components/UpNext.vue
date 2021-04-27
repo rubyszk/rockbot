@@ -39,6 +39,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+h1 {
+  color: white;
+}
+
 .main {
   /* text-align: center; */
   /* display: flex; */
@@ -65,7 +69,7 @@ export default {
   border-radius: 10px;
   height: 300px;
   min-width: 250px;
-  background: gray;
+  background: #4e4e4e;
   color: white;
 }
 

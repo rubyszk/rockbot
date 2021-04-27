@@ -26,9 +26,9 @@
 
 input {
   height: 2.5em;
-  width: 15em;
+  width: 18em;
   padding-left: 10px;
-  border: 1px solid black;
+  border: none;
   border-radius: 10px;
   font-size: 16px;
 }
@@ -36,7 +36,7 @@ input:focus {
   outline: none;
 }
 .main {
-  margin-left: 65%;
+  margin-left: 5%;
 }
 
 </style>
