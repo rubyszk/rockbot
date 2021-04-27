@@ -1,15 +1,16 @@
 <template>
   <footer class="nowPlaying">
-    <div class="album">
+    <img class="album" :src="nowPlaying.artwork_small">
       <!-- <p>x</p> -->
-    </div>
+    <!-- </div> -->
     <div class="info">
-      <h4> Song </h4>
-      <p> Artist</p>
+      <h4> {{nowPlaying.song}} </h4>
+      <p> {{nowPlaying.artist}}</p>
     </div>
     <div class="vote">
-      <div class="like"></div>
-      <div class="like"></div>
+      <button class="like"><img class="thumb" src="../assets/icons/thumbs-down-regular.svg" /></button>
+       <button class="like"><img class="thumb" src="../assets/icons/thumbs-up-regular.svg" /></button>
+      <!-- <img src="../assets/icons/thumbs-up-regular.svg"/> -->
     </div>
   </footer>
 </template>
@@ -18,7 +19,7 @@
 export default {
   name: 'NowPlaying',
   props: {
-    msg: String
+    nowPlaying: Object
   }
 }
 </script>
@@ -55,10 +56,18 @@ export default {
 }
 
 .like {
-  height: 50px;
-  width: 50px;
-  background: black;
+  height: 75px;
+  width: 75px;
+  background: none;
   margin: 0 1em ;
+  border: 3px solid black;
+  border-radius: 100%;
+}
+
+.thumb {
+  height: 50px;
+  margin: 5px 0 0 5px;
+
 }
 
 h4 {

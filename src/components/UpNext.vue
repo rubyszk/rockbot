@@ -1,44 +1,24 @@
 <template>
   <div class="main">
     <h1>Up Next</h1>
+    <!-- map through queue data for song item -->
+    <!-- feels like a syntaxical nightmare but its so easy wtf -->
     <div class="list">
-      <!-- fetch data, map, for each item render -->
-      <div class="album">
-        <div class="item"/>
+      <div 
+        class="album"
+        v-for="(item, index) in upNext"
+        :key="index">
+        <img class="artwork" :src="item.artwork_large"/>
         <div class="info">
           <div>
-            <h3>Song</h3>
-            <p>Artist</p>
+            <h3>{{item.song}}</h3>
+            <p>{{item.artist}}</p>
           </div>
           <div class="vote">
-            <div class="like"/>
-            <div class="like"/>
-          </div>
-        </div>
-      </div>
-      <div class="album">
-        <div class="item"/>
-        <div class="info">
-          <div>
-            <h3>Song</h3>
-            <p>Artist</p>
-          </div>
-          <div class="vote">
-            <div class="like"/>
-            <div class="like"/>
-          </div>
-        </div>
-      </div>
-      <div class="album">
-        <div class="item"/>
-        <div class="info">
-          <div>
-            <h3>Song</h3>
-            <p>Artist</p>
-          </div>
-          <div class="vote">
-            <div class="like"/>
-            <div class="like"/>
+            <!-- add vote count on hover -->
+            <!-- <button></button> -->
+            <img src="../assets/icons/thumbs-down-regular.svg" class="like"/>
+            <img src="../assets/icons/thumbs-up-regular.svg" class="like"/>
           </div>
         </div>
       </div>
@@ -47,10 +27,11 @@
 </template>
 
 <script>
+
 export default {
   name: 'UpNext',
   props: {
-    msg: String
+    upNext: Array
   }
 }
 </script>
@@ -63,13 +44,13 @@ export default {
   /* display: flex; */
   padding: 2.5em;
   justify-content: center;
-  flex-direction: column;
+  /* flex-direction: column; */
   /* overflow: auto; */
 }
 
 .list {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   line-height: .5;
   /* text-align: left; */
 }
@@ -80,7 +61,7 @@ export default {
   justify-content: center;
   /* align-items: center; */
   text-align: left;
-  margin: 0 3em 3em 0;
+  margin: 0 1em 1em 0;
   border-radius: 10px;
   height: 300px;
   min-width: 250px;
@@ -100,10 +81,10 @@ export default {
 }
 
 .like {
-  height: 25px;
-  width: 25px;
-  background: black;
-  margin-left: 10px;
+  height: 20px;
+  width: 20px;
+  /* background: black; */
+  margin-left: 15px;
 }
 
 h3 {
@@ -113,10 +94,10 @@ p {
   margin: 0;
 }
 
-.item {
+.artwork {
   height: 200px;
   width: 200px;
   align-self: center;
-  background: black;
+  /* background: black; */
 }
 </style>

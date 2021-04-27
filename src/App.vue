@@ -11,9 +11,13 @@
     </div>    
 
     <div class="content">
-      <Search/>
-      <UpNext/>
-    <NowPlaying/>
+    <Search/>
+    <UpNext
+      :upNext="upNext"
+    />
+    <NowPlaying
+      :nowPlaying="nowPlaying"
+    />
     </div>
   </div>
 </template>
@@ -38,7 +42,7 @@ export default {
     return {
       // isLoading: false,
       nowPlaying: {},
-      upNext: {},
+      upNext: [],
       browseArtists: {},
       trendingArtists: {},
       searchResults: {}
@@ -52,19 +56,15 @@ export default {
   },
   methods: {
     fetchNowPlaying(){ 
-      // const headers = new Headers();
-      // headers.append(
-      //   "Authorization",
-      //   "api_key"
-      // )
       console.log(process.env.VUE_APP_API_KEY)
-      // API Call also fetches Queue
-      // fetch from url
+      // API call fetches now playing and queue data
       fetch("https://api.rockbot.com/v3/engage/now_playing?queue=1", {
         headers
       }).then((res) => res.json())
       .then((data) => {
-        console.log(data)
+        this.nowPlaying = data.response.now_playing
+        this.upNext = data.response.queue
+        console.log(data.response)
       })
       // 2ab742c917f872aa88644bc8f995e03159b2
       // .then((res) => res.json())
