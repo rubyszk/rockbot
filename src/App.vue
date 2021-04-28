@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-
-    
     <div class="sidebar">
       <!-- nav highlight active state -->
       <ul>
@@ -28,6 +26,7 @@
     />    
     <Trending
       v-show="currentView === 'Trending'"
+      :topArtists="topArtists"
     />
     <NowPlaying
       :nowPlaying="nowPlaying"
@@ -60,7 +59,7 @@ export default {
       nowPlaying: {},
       upNext: [],
       browseArtists: {},
-      trendingArtists: {},
+      topArtists: {},
       searchResults: {}
     }
   },
@@ -90,15 +89,21 @@ export default {
       // }, 30000)
     },
     fetchTopArtists(){
-      // API Call
+      fetch("https://api.rockbot.com/v3/engage/top_artists", {
+        headers
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('yes', data.response)
+        this.topArtists = data.response
+      })
     }
   }, 
   mounted() {
       // Call on mount to fetch data
       // (useEffect/componentDidMount)
-
     this.fetchNowPlaying();
-      // this.fetchTopArtists();
+    this.fetchTopArtists();
   }
 }
 </script>

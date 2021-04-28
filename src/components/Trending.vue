@@ -4,13 +4,12 @@
     <div class="list">
       <div 
         class="album"
-        v-for="(item, index) in trending"
+        v-for="(item, index) in topArtists"
         :key="index">
         <img class="artwork" :src="item.artwork_large"/>
         <div class="info">
           <div>
-            <h3>{{item.song}}</h3>
-            <p>{{item.artist}}</p>
+            <h3>{{item.artist}}</h3>
           </div>
           <div class="vote">
             <!-- add vote count on hover -->
@@ -25,27 +24,11 @@
 </template>
 
 <script>
-import { headers } from '../headers';
 
 export default {
-  name: 'UpNext',
+  name: 'Trending',
   props: {
-    // upNext: Array
-  },
-  methods:  {
-    fetchTrending(){ 
-    fetch("https://api.rockbot.com/v3/engage/top_artists", {
-      headers
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      // console.log('yes', data.response)
-      this.trending = data.response
-    })
-    }
-  },
-  mounted() {
-    this.fetchTrending();
+    topArtists: Array
   }
 }
 </script>
@@ -98,7 +81,6 @@ h1 {
 .like {
   height: 20px;
   width: 20px;
-  /* background: black; */
   margin-left: 15px;
 }
 
