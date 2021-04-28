@@ -46,7 +46,7 @@ h1 {
 .main {
   padding: 2.5em;
   justify-content: center;
-  /* height: 650px; */
+  height: 650px;
   overflow: auto;
 }
 
@@ -55,6 +55,7 @@ h1 {
   flex-wrap: wrap;
   line-height: .5;
 }
+
 
 .album {
   display: flex;
@@ -99,5 +100,16 @@ p {
   width: 200px;
   align-self: center;
   object-fit: cover;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(36, 36, 36, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 </style>

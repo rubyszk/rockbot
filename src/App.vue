@@ -140,8 +140,10 @@ a:hover {
   cursor: pointer;
   color: dodgerblue;
 }
+
 ul {
   list-style: none;
+  padding: 0;
 }
 li {
   padding-left: 1em;
