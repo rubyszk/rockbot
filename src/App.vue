@@ -59,30 +59,20 @@ export default {
   },
   methods: {
     fetchNowPlaying(){ 
-      console.log(process.env.VUE_APP_API_KEY)
       // API call fetches now playing and queue data
       fetch("https://api.rockbot.com/v3/engage/now_playing?queue=1", {
         headers
-      }).then((res) => res.json())
+      })
+      .then((res) => res.json())
       .then((data) => {
         this.nowPlaying = data.response.now_playing
         this.upNext = data.response.queue
         console.log(data.response)
       })
-      // 2ab742c917f872aa88644bc8f995e03159b2
-      // .then((res) => res.json())
-      //.then((data)=> {
-        //this.nowPlaying = data.res.now_playing
-      // })
       // fetch every 30 seconds
       // window.setInterval(() => {
-        // this.nowPlaying()
+        // this.fetchNowPlaying()
       // }, 30000)
-    },
-    sayHello(){
-      window.setInterval(() => {
-        console.log('hellooooo')
-      }, 1000)
     },
     fetchBrowse(){
       // API Call

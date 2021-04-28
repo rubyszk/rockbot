@@ -1,22 +1,37 @@
 <template>
   <div class="main">
-    <!-- <font-awesome-icon icon="fas fa-search" /> -->
-   <input type="text" placeholder="Search artists" onchange={}>
+    <!-- add search icon -->
+    <!-- bind input for search function and search on input change-->
+   <input v-model="query" type="text" placeholder="Search artists" @input="search">
   </div>
 </template>
 
 <script>
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { headers } from '../headers';
 
-// SEARCH ON CHANGE
   export default {
     name: 'Search',
+    data() {
+      return {
+        query: "",
+        results: []
+      }
+    },
     props: {
-      msg: String
+     
     },
     methods: {
-
+      search() {
+      console.log(this.query)
+      fetch(`https://api.rockbot.com/v3/engage/search_artists?query=${this.query}`, {
+        headers
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        this.results = data.response
+        console.log(data.response)
+      })
+      }
     }
   }
 </script>
