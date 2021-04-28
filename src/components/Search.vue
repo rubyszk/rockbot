@@ -14,8 +14,6 @@
         v-for="(item, index) in searchResults"
         :key="index">
         <img class="artwork" :src="item.artwork_small"/>
-      <!-- add error handling 
-           if results === 0 'No results' -->
         <div class="info">
           <div>
             <h3>{{item.artist}}</h3>
@@ -37,8 +35,6 @@
         v-for="(item, index) in browseResults"
         :key="index">
         <img class="artwork" :src="item.artwork_small"/>
-      <!-- add error handling 
-           if results === 0 'No results' -->
         <div class="info">
           <div>
             <h3>{{item.artist}}</h3>
@@ -81,9 +77,7 @@ import { headers } from '../headers';
       .then((data) => {
         this.searchResults = data.response
       })
-      // add error handling 
-      // if query.length <  1 ->
-      },
+    },
       browseArtists(){ 
       // fetch and shuffle browse artist data
       fetch("https://api.rockbot.com/v3/engage/browse_artists", {
@@ -93,8 +87,8 @@ import { headers } from '../headers';
       .then((data) => {
         // shuffle full array
         for (let i = data.response.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [data.response[i], data.response[j]] = [data.response[j], data.response[i]];
+          const j = Math.floor(Math.random() * (i + 1));
+          [data.response[i], data.response[j]] = [data.response[j], data.response[i]];
         }
         // display 25 results
         this.browseResults = data.response.slice(0,25)
@@ -134,21 +128,30 @@ h1 {
   padding: 2.5em;
   justify-content: center;
   height: 650px;
-  overflow: auto;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(36, 36, 36, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 .list {
   display: flex;
   flex-wrap: wrap;
   line-height: .5;
-  /* text-align: left; */
 }
 
 .album {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   text-align: left;
   margin: 0 1em 1em 0;
   border-radius: 10px;
@@ -172,7 +175,6 @@ h1 {
 .like {
   height: 20px;
   width: 20px;
-  /* background: black; */
   margin-left: 15px;
 }
 
