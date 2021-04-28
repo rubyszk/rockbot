@@ -44,26 +44,22 @@ h1 {
 }
 
 .main {
-  /* text-align: center; */
-  /* display: flex; */
   padding: 2.5em;
   justify-content: center;
-  /* flex-direction: column; */
-  /* overflow: auto; */
+  /* height: 650px; */
+  overflow: auto;
 }
 
 .list {
   display: flex;
   flex-wrap: wrap;
   line-height: .5;
-  /* text-align: left; */
 }
 
 .album {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   text-align: left;
   margin: 0 1em 1em 0;
   border-radius: 10px;
@@ -102,6 +98,6 @@ p {
   height: 200px;
   width: 200px;
   align-self: center;
-  /* background: black; */
+  object-fit: cover;
 }
 </style>
