@@ -1,8 +1,6 @@
 <template>
   <div class="main">
     <h1>Trending Now</h1>
-    <!-- map through queue data for song item -->
-    <!-- feels like a syntaxical nightmare but its so easy wtf -->
     <div class="list">
       <div 
         class="album"
