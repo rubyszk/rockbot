@@ -1,19 +1,53 @@
 <template>
   <div class="main">
-    <h1>Up Next</h1>
-    <div class="albums">
-      <div class="item"></div>
-      <div class="item"></div>
-      <div class="item"></div>
+    <h1>Trending Now</h1>
+    <!-- map through queue data for song item -->
+    <!-- feels like a syntaxical nightmare but its so easy wtf -->
+    <div class="list">
+      <div 
+        class="album"
+        v-for="(item, index) in trending"
+        :key="index">
+        <img class="artwork" :src="item.artwork_large"/>
+        <div class="info">
+          <div>
+            <h3>{{item.song}}</h3>
+            <p>{{item.artist}}</p>
+          </div>
+          <div class="vote">
+            <!-- add vote count on hover -->
+            <!-- <button></button> -->
+            <img src="../assets/icons/thumbs-down-regular.svg" class="like"/>
+            <img src="../assets/icons/thumbs-up-regular.svg" class="like"/>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { headers } from '../headers';
+
 export default {
-  name: 'Trending',
+  name: 'UpNext',
   props: {
-    msg: String
+    // upNext: Array
+  },
+  methods:  {
+    fetchTrending(){ 
+    fetch("https://api.rockbot.com/v3/engage/top_artists", {
+      headers
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log('yes', data.response)
+      this.trending = data.response
+    })
+    }
+  },
+  mounted() {
+    this.fetchTrending();
   }
 }
 </script>
@@ -21,11 +55,77 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.main {
-  /* text-align: center; */
-  /* display: flex; */
-  justify-content: center;
-  flex-direction: column;
+h1 {
+  color: white;
 }
 
+.main {
+  padding: 2.5em;
+  justify-content: center;
+  height: 650px;
+  overflow: auto;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  line-height: .5;
+}
+
+
+.album {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  margin: 0 1em 1em 0;
+  border-radius: 10px;
+  height: 300px;
+  min-width: 250px;
+  background: #4e4e4e;
+  color: white;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px 25px 0 25px;
+}
+
+.vote {
+  display: flex;
+}
+
+.like {
+  height: 20px;
+  width: 20px;
+  /* background: black; */
+  margin-left: 15px;
+}
+
+h3 {
+  margin: 5px 0 10px 0;
+}
+p {
+  margin: 0;
+}
+
+.artwork {
+  height: 200px;
+  width: 200px;
+  align-self: center;
+  object-fit: cover;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(36, 36, 36, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
 </style>

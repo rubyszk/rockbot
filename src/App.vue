@@ -16,7 +16,6 @@
         </li>
       </ul>
     </div>    
-
     <div class="content">    
     <Search v-show="currentView === 'Search'"/>
       <div class="header">
@@ -26,10 +25,14 @@
     <UpNext
       v-show="currentView === 'Home'"
       :upNext="upNext"
+    />    
+    <Trending
+      v-show="currentView === 'Trending'"
     />
     <NowPlaying
       :nowPlaying="nowPlaying"
     />
+
     </div>
   </div>
 </template>
@@ -39,6 +42,7 @@ import { headers } from './headers';
 import NowPlaying from './components/NowPlaying';
 import UpNext from './components/UpNext';
 import Search from './components/Search';
+import Trending from './components/Trending';
 
 export default {
   name: 'App',
@@ -46,7 +50,8 @@ export default {
   components: {
     NowPlaying,
     UpNext,
-    Search
+    Search,
+    Trending
   },
   data() {
     return {
