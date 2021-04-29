@@ -2,7 +2,7 @@
   <footer class="nowPlaying">
     <img class="album" :src="nowPlaying.artwork_small" />
     <div class="info">
-      <h4>{{ nowPlaying.song }}</h4>
+      <h3>{{ nowPlaying.song }}</h3>
       <p>{{ nowPlaying.artist }}</p>
     </div>
     <div class="vote">
@@ -27,6 +27,10 @@
 
 <script>
 import { headers } from "../headers";
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+Vue.use(VueToast);
 
 export default {
   name: "NowPlaying",
@@ -34,17 +38,33 @@ export default {
     nowPlaying: Object,
   },
   methods: {
+    thumbsUpToast() {
+      Vue.$toast.open({
+        message: "+1 Like",
+        type: "success",
+      });
+    },
+    thumbsDownToast() {
+      Vue.$toast.open({
+        message: "+1 Dislike",
+        type: "error",
+      });
+    },
     thumbsUp(pick_id) {
       fetch(`https://api.rockbot.com/v3/engage/vote_up?pick_id=${pick_id}`, {
         method: "POST",
         headers,
-      }).then((res) => res.json());
+      })
+        .then((res) => res.json())
+        .then(() => this.thumbsUpToast());
     },
     thumbsDown(pick_id) {
       fetch(`https://api.rockbot.com/v3/engage/vote_down?pick_id=${pick_id}`, {
         method: "POST",
         headers,
-      }).then((res) => res.json());
+      })
+        .then((res) => res.json())
+        .then(() => this.thumbsDownToast());
     },
   },
 };
@@ -52,21 +72,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .nowPlaying {
   display: flex;
   align-items: center;
   margin-left: -12em;
   width: 125%;
-  height: 6em;
+  height: 9em;
   background: #4e4e4e;
   color: white;
-  padding: 1em 1em 1em 2em;
+  padding: 1em 1em 1em 3em;
+  bottom: 0;
+  position: absolute;
 }
 
 .album {
-  height: 70px;
-  width: 70px;
+  height: 90px;
+  width: 90px;
   background: black;
 }
 
@@ -78,7 +99,7 @@ export default {
 
 .vote {
   display: flex;
-  margin-left: 35%;
+  margin-left: 25%;
 }
 
 .like {
@@ -110,7 +131,30 @@ export default {
   /* background:palegreen; */
 }
 
-h4 {
-  margin: 1em 0 0 0;
+h3 {
+  line-height: 1;
+}
+
+@media screen and (max-width: 700px) {
+  .nowPlaying {
+    margin: 0;
+    width: 100%;
+  }
+
+  p {
+    line-height: 1;
+  }
+  .thumb-down,
+  .thumb-up,
+  .like {
+    height: 20px;
+    width: 20px;
+    background: none;
+    border: none;
+  }
+
+  .vote {
+    margin-left: 15%;
+  }
 }
 </style>

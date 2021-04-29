@@ -70,6 +70,10 @@
 
 <script>
 import { headers } from "../headers";
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+Vue.use(VueToast);
 
 export default {
   name: "Search",
@@ -83,6 +87,12 @@ export default {
     };
   },
   methods: {
+    requestToast() {
+      Vue.$toast.open({
+        message: "Artist Requested",
+        type: "success",
+      });
+    },
     search() {
       fetch(
         `https://api.rockbot.com/v3/engage/search_artists?query=${this.query}`,
@@ -119,6 +129,7 @@ export default {
       this.activeItem = index;
     },
     request(artist_id) {
+      this.requestToast();
       fetch(
         `https://api.rockbot.com/v3/engage/request_artist?artist_id=${artist_id}`,
         {
@@ -147,9 +158,6 @@ input {
 }
 input:focus {
   outline: none;
-}
-.main {
-  margin-left: 5%;
 }
 
 h1 {

@@ -31,6 +31,10 @@
 
 <script>
 import { headers } from "../headers";
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+Vue.use(VueToast);
 
 export default {
   name: "Trending",
@@ -44,11 +48,18 @@ export default {
     topArtists: Array,
   },
   methods: {
+    requestToast() {
+      Vue.$toast.open({
+        message: "Artist Requested",
+        type: "success",
+      });
+    },
     setActive(index) {
       this.active = !this.active;
       this.activeItem = index;
     },
     request(artist_id) {
+      this.requestToast();
       // reusing search function until I figure out how to use $emit
       fetch(
         `https://api.rockbot.com/v3/engage/request_artist?artist_id=${artist_id}`,

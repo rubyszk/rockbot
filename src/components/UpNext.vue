@@ -12,8 +12,16 @@
             <p>{{ item.artist }}</p>
           </div>
           <div class="vote">
-            <img src="../assets/icons/thumbs-down-regular.svg" class="like" />
-            <img src="../assets/icons/thumbs-up-regular.svg" class="like" />
+            <img
+              src="../assets/icons/thumbs-down-regular.svg"
+              class="like"
+              v-on:click="thumbsDown(item.pick_id)"
+            />
+            <img
+              src="../assets/icons/thumbs-up-regular.svg"
+              class="like"
+              v-on:click="thumbsUp(item.pick_id)"
+            />
           </div>
         </div>
       </div>
@@ -22,10 +30,46 @@
 </template>
 
 <script>
+import { headers } from "../headers";
+import Vue from "vue";
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+Vue.use(VueToast);
+
 export default {
   name: "UpNext",
   props: {
     upNext: Array,
+  },
+  methods: {
+    thumbsUpToast() {
+      Vue.$toast.open({
+        message: "+1 Like",
+        type: "success",
+      });
+    },
+    thumbsDownToast() {
+      Vue.$toast.open({
+        message: "+1 Dislike",
+        type: "error",
+      });
+    },
+    thumbsUp(pick_id) {
+      fetch(`https://api.rockbot.com/v3/engage/vote_up?pick_id=${pick_id}`, {
+        method: "POST",
+        headers,
+      })
+        .then((res) => res.json())
+        .then(() => this.thumbsUpToast());
+    },
+    thumbsDown(pick_id) {
+      fetch(`https://api.rockbot.com/v3/engage/vote_down?pick_id=${pick_id}`, {
+        method: "POST",
+        headers,
+      })
+        .then((res) => res.json())
+        .then(() => this.thumbsDownToast());
+    },
   },
 };
 </script>
@@ -78,6 +122,9 @@ h1 {
   width: 20px;
   margin-left: 15px;
 }
+.like:hover {
+  cursor: pointer;
+}
 
 h3 {
   margin: 5px 0 10px 0;
@@ -102,5 +149,11 @@ p {
   border-radius: 4px;
   background-color: rgba(36, 36, 36, 0.5);
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+@media screen and (max-width: 700px) {
+  h3 {
+    line-height: 1;
+  }
 }
 </style>

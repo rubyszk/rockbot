@@ -11,10 +11,8 @@
         </li>
         <li :class="currentView === 'Search' ? 'active' : null">
           <a @click="changeView('Search')">
-            <img
-              class="sidebar-icon"
-              src="./assets/icons/search-solid.svg"
-            />Search
+            <img class="sidebar-icon" src="./assets/icons/search-solid.svg"/> 
+            Search
           </a>
         </li>
         <li :class="currentView === 'Trending' ? 'active' : null">
@@ -86,9 +84,9 @@ export default {
           this.upNext = data.response.queue;
         });
       // fetch every 30 seconds
-      // window.setInterval(() => {
-      //   this.fetchNowPlaying()
-      // }, 30000)
+      window.setInterval(() => {
+        this.fetchNowPlaying()
+      }, 30000)
     },
     fetchTopArtists() {
       fetch("https://api.rockbot.com/v3/engage/top_artists", {
@@ -101,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    // call on mount
+    // call on mount (useEffect?)
     this.fetchNowPlaying();
     this.fetchTopArtists();
   },
@@ -181,7 +179,7 @@ li {
 
 .sidebar-icon {
   height: 25px;
-  margin: 0px 5px -3px -10px;
+  margin: 0px 7px -4px -5px;
 }
 
 .active {
@@ -192,5 +190,15 @@ li {
   flex: 1;
   flex-wrap: wrap;
   margin-top: 2em;
+}
+
+@media screen and (max-width: 700px) {
+  #app {
+    display: block;
+  }
+  .sidebar {
+    max-width:100%;
+    padding: .5em 0 0 0;
+  }
 }
 </style>
