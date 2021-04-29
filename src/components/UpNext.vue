@@ -4,21 +4,16 @@
     <!-- map through queue data for song item -->
     <!-- feels like a syntaxical nightmare but its so easy wtf -->
     <div class="list">
-      <div 
-        class="album"
-        v-for="(item, index) in upNext"
-        :key="index">
-        <img class="artwork" :src="item.artwork_large"/>
+      <div class="album" v-for="(item, index) in upNext" :key="index">
+        <img class="artwork" :src="item.artwork_large" />
         <div class="info">
           <div>
-            <h3>{{item.song}}</h3>
-            <p>{{item.artist}}</p>
+            <h3>{{ item.song }}</h3>
+            <p>{{ item.artist }}</p>
           </div>
           <div class="vote">
-            <!-- add vote count on hover -->
-            <!-- <button></button> -->
-            <img src="../assets/icons/thumbs-down-regular.svg" class="like"/>
-            <img src="../assets/icons/thumbs-up-regular.svg" class="like"/>
+            <img src="../assets/icons/thumbs-down-regular.svg" class="like" />
+            <img src="../assets/icons/thumbs-up-regular.svg" class="like" />
           </div>
         </div>
       </div>
@@ -27,18 +22,16 @@
 </template>
 
 <script>
-
 export default {
-  name: 'UpNext',
+  name: "UpNext",
   props: {
-    upNext: Array
-  }
-}
+    upNext: Array,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 h1 {
   color: white;
 }
@@ -53,9 +46,8 @@ h1 {
 .list {
   display: flex;
   flex-wrap: wrap;
-  line-height: .5;
+  line-height: 0.5;
 }
-
 
 .album {
   display: flex;
@@ -84,7 +76,6 @@ h1 {
 .like {
   height: 20px;
   width: 20px;
-  /* background: black; */
   margin-left: 15px;
 }
 
@@ -110,6 +101,6 @@ p {
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(36, 36, 36, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 </style>

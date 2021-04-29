@@ -2,20 +2,26 @@
   <div class="main">
     <h1>Trending Now</h1>
     <div class="list">
-      <div 
+      <div
         class="album"
         v-for="(item, index) in topArtists"
-        :key="index">
-        <img class="artwork" :src="item.artwork_large"/>
+        :key="index"
+        @mouseover="setActive(index)"
+        @mouseout="setActive(false)"
+      >
+        <img class="artwork" :src="item.artwork_large" />
         <div class="info">
           <div>
-            <h3>{{item.artist}}</h3>
+            <h3>{{ item.artist }}</h3>
           </div>
           <div class="vote">
             <!-- add vote count on hover -->
-            <!-- <button></button> -->
-            <img src="../assets/icons/thumbs-down-regular.svg" class="like"/>
-            <img src="../assets/icons/thumbs-up-regular.svg" class="like"/>
+            <img
+              v-show="activeItem === index"
+              src="../assets/icons/plus-solid.svg"
+              class="add"
+              v-on:click="request(item.artist_id)"
+            />
           </div>
         </div>
       </div>
@@ -24,18 +30,40 @@
 </template>
 
 <script>
+import { headers } from "../headers";
 
 export default {
-  name: 'Trending',
+  name: "Trending",
+  data() {
+    return {
+      active: false,
+      activeItem: null,
+    };
+  },
   props: {
-    topArtists: Array
-  }
-}
+    topArtists: Array,
+  },
+  methods: {
+    setActive(index) {
+      this.active = !this.active;
+      this.activeItem = index;
+    },
+    request(artist_id) {
+      // reusing search function until I figure out how to use $emit
+      fetch(
+        `https://api.rockbot.com/v3/engage/request_artist?artist_id=${artist_id}`,
+        {
+          method: "POST",
+          headers,
+        }
+      ).then((res) => res.json());
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 h1 {
   color: white;
 }
@@ -50,9 +78,8 @@ h1 {
 .list {
   display: flex;
   flex-wrap: wrap;
-  line-height: .5;
+  line-height: 0.5;
 }
-
 
 .album {
   display: flex;
@@ -78,10 +105,19 @@ h1 {
   display: flex;
 }
 
-.like {
-  height: 20px;
-  width: 20px;
-  margin-left: 15px;
+.add {
+  height: 30px;
+  width: 30px;
+  margin-top: -235px;
+  margin-right: -15px;
+  background: #56d092;
+  border: 3px solid #56d092;
+  border-radius: 100%;
+  background: "../assets/icons/plus-solid.svg";
+}
+
+.add:hover {
+  cursor: pointer;
 }
 
 h3 {
@@ -106,6 +142,6 @@ p {
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(36, 36, 36, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 </style>

@@ -3,126 +3,112 @@
     <div class="sidebar">
       <!-- nav highlight active state -->
       <ul>
-        <li :class="currentView === 'Home' ? 'active' : null"> 
-          <a @click="changeView('Home')"> <img class="sidebar-icon" src="./assets/icons/home-solid.svg" /> Home </a> 
+        <li :class="currentView === 'Home' ? 'active' : null">
+          <a @click="changeView('Home')">
+            <img class="sidebar-icon" src="./assets/icons/home-solid.svg" />
+            Home
+          </a>
         </li>
-        <li :class="currentView === 'Search' ? 'active' : null" > 
-          <a @click="changeView('Search')"> <img class="sidebar-icon" src="./assets/icons/search-solid.svg" />Search </a> 
+        <li :class="currentView === 'Search' ? 'active' : null">
+          <a @click="changeView('Search')">
+            <img
+              class="sidebar-icon"
+              src="./assets/icons/search-solid.svg"
+            />Search
+          </a>
         </li>
-        <li :class="currentView === 'Trending' ? 'active' : null"> 
-          <a @click="changeView('Trending')"> <img class="sidebar-icon" src="./assets/icons/fire-alt-solid.svg" /> What's Hot </a> 
+        <li :class="currentView === 'Trending' ? 'active' : null">
+          <a @click="changeView('Trending')">
+            <img class="sidebar-icon" src="./assets/icons/fire-alt-solid.svg" />
+            What's Hot
+          </a>
         </li>
       </ul>
-    </div>    
-    <div class="content">    
-    <Search v-show="currentView === 'Search'" />
+    </div>
+    <div class="content">
+      <Search v-show="currentView === 'Search'" />
       <div class="header">
-        <img class="user-icon" src="./assets/icons/robot-solid.svg"/>
-        <h5> Rockbot HQ </h5>
+        <img class="user-icon" src="./assets/icons/robot-solid.svg" />
+        <h5>Rockbot HQ</h5>
       </div>
-    <UpNext
-      v-show="currentView === 'Home'"
-      :upNext="upNext"
-    />    
-    <Trending
-      v-show="currentView === 'Trending'"
-      :topArtists="topArtists"
-    />
-    <NowPlaying
-      :nowPlaying="nowPlaying"
-    />
-
+      <UpNext v-show="currentView === 'Home'" :upNext="upNext" />
+      <Trending v-show="currentView === 'Trending'" :topArtists="topArtists" />
+      <NowPlaying :nowPlaying="nowPlaying" />
     </div>
   </div>
 </template>
 
 <script>
-import { headers } from './headers';
-import NowPlaying from './components/NowPlaying';
-import UpNext from './components/UpNext';
-import Search from './components/Search';
-import Trending from './components/Trending';
+import { headers } from "./headers";
+import NowPlaying from "./components/NowPlaying";
+import UpNext from "./components/UpNext";
+import Search from "./components/Search";
+import Trending from "./components/Trending";
 
 export default {
-  name: 'App',
-  
+  name: "App",
+
   components: {
     NowPlaying,
     UpNext,
     Search,
-    Trending
+    Trending,
   },
   data() {
     return {
-      currentView: 'Home',
-      views: ['Home', 'Search', 'Trending'],
+      currentView: "Home",
+      views: ["Home", "Search", "Trending"],
       nowPlaying: {},
       upNext: [],
       browseArtists: {},
-      topArtists: {},
-      searchResults: {}
-    }
+      topArtists: [],
+      searchResults: {},
+    };
   },
   computed: {
     window: () => window,
     isPlaying() {
-      return `${this.nowPlaying}`
+      return `${this.nowPlaying}`;
     },
   },
   methods: {
-    changeView(view){
+    changeView(view) {
       this.currentView = view;
     },
-    fetchNowPlaying(){ 
+    fetchNowPlaying() {
       // API call fetches now playing and queue data
       fetch("https://api.rockbot.com/v3/engage/now_playing?queue=1", {
-        headers
+        headers,
       })
-      .then((res) => res.json())
-      .then((data) => {
-        this.nowPlaying = data.response.now_playing
-        this.upNext = data.response.queue
-      })
+        .then((res) => res.json())
+        .then((data) => {
+          this.nowPlaying = data.response.now_playing;
+          this.upNext = data.response.queue;
+        });
       // fetch every 30 seconds
       // window.setInterval(() => {
       //   this.fetchNowPlaying()
       // }, 30000)
     },
-    fetchTopArtists(){
+    fetchTopArtists() {
       fetch("https://api.rockbot.com/v3/engage/top_artists", {
-        headers
+        headers,
       })
-      .then((res) => res.json())
-      .then((data) => {
-        this.topArtists = data.response
-      })
+        .then((res) => res.json())
+        .then((data) => {
+          this.topArtists = data.response;
+        });
     },
-    // thumbsUp(){
-    //   fetch(`https://api.rockbot.com/v3/engage/vote_up?pick_id=${pick_id}`, {
-    //     method: 'POST',
-    //     headers
-    //   })
-    //   return response.json()
-    // },
-    // thumbsDown(){
-    //   fetch(`https://api.rockbot.com/v3/engage/vote_down?pick_id=${pick_id}`, {
-    //     method: 'POST',
-    //     headers
-    //   })
-    //   return response.json()
-
-    // },
   },
   mounted() {
     // call on mount
     this.fetchNowPlaying();
     this.fetchTopArtists();
-  }
-}
+  },
+};
 </script>
 
 <style>
-
 body {
   margin: 0px;
   height: 100%;
@@ -136,8 +122,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  background: rgb(209,225,230);
-  background: linear-gradient(4deg, rgba(33,33,33,1) 34%, rgba(96,96,96,1) 73%, rgba(154,154,154,1) 97%);
+  background: rgb(209, 225, 230);
+  background: linear-gradient(
+    4deg,
+    rgba(33, 33, 33, 1) 34%,
+    rgba(96, 96, 96, 1) 73%,
+    rgba(154, 154, 154, 1) 97%
+  );
 }
 
 .header {
@@ -170,13 +161,13 @@ ul {
 }
 li {
   padding-left: 1em;
-  color: #9A9A9A;
+  color: #9a9a9a;
 }
 
 .sidebar {
   min-width: 175px;
   max-width: 175px;
-  min-height: 100%  !important;
+  min-height: 100% !important;
   flex: 1;
   font-size: 18px;
   line-height: 3;

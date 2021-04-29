@@ -2,120 +2,141 @@
   <div class="main">
     <!-- add search icon -->
     <!-- bind input for search function and search on input change-->
-      <input v-model="query" type="text" placeholder="Search artists" @input="search">
-    <h1>{{query ? 'Search Results' : 'Browse Artists'}}</h1>
+    <input
+      v-model="query"
+      type="text"
+      placeholder="Search artists"
+      @input="search"
+    />
+    <h1>{{ query ? "Search Results" : "Browse Artists" }}</h1>
     <div v-if="query">
-    <div v-if="query.length > 0 && searchResults === undefined">
-      <h3>Sorry, no results were found for "{{query}}". </h3>
-    </div>
-    <div v-else class="list">
-      <div 
-        class="album"
-        v-for="(item, index) in searchResults"
-        :key="index"
-        @mouseover="setActive(index)"
-        @mouseout="setActive(false)"
+      <div v-if="query.length > 0 && searchResults === undefined">
+        <h3>Sorry, no results were found for "{{ query }}".</h3>
+      </div>
+      <div v-else class="list">
+        <div
+          class="album"
+          v-for="(item, index) in searchResults"
+          :key="index"
+          @mouseover="setActive(index)"
+          @mouseout="setActive(false)"
         >
-        <img class="artwork" :src="item.artwork_small"/>
-        <div class="info">
-          <div>
-            <h3>{{item.artist}}</h3>
-          </div>
-          <div class="vote">
-            <img  v-show="activeItem === index" src="../assets/icons/plus-solid.svg" class="add" v-on:click="request(item.artist_id)"/>
+          <img class="artwork" :src="item.artwork_small" />
+          <div class="info">
+            <div>
+              <h3>{{ item.artist }}</h3>
+            </div>
+            <div class="vote">
+              <img
+                v-show="activeItem === index"
+                src="../assets/icons/plus-solid.svg"
+                class="add"
+                v-on:click="request(item.artist_id)"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <div v-else>
-    <div class="list">
-      <!-- set active class on mouseover for request btn -->
-      <div 
-        class="album"
-        v-for="(item, index) in browseResults"
-        :key="index"
-        @mouseover="setActive(index)"
-        @mouseout="setActive(false)"
+      <div class="list">
+        <!-- set active class on mouseover for request btn -->
+        <div
+          class="album"
+          v-for="(item, index) in browseResults"
+          :key="index"
+          @mouseover="setActive(index)"
+          @mouseout="setActive(false)"
         >
-        <img class="artwork" :src="item.artwork_small"/>
-        <div  class="info">
-          <div>
-            <h3>{{item.artist}}</h3>
-          </div>
-          <div class="vote">
-            <img v-show="activeItem === index" src="../assets/icons/plus-solid.svg" class="add" v-on:click="request(item.artist_id)"/>
+          <img class="artwork" :src="item.artwork_small" />
+          <div class="info">
+            <div>
+              <h3>{{ item.artist }}</h3>
+            </div>
+            <div class="vote">
+              <img
+                v-show="activeItem === index"
+                src="../assets/icons/plus-solid.svg"
+                class="add"
+                v-on:click="request(item.artist_id)"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
 
 <script>
-import { headers } from '../headers';
+import { headers } from "../headers";
 
-  export default {
-    name: 'Search',
-    data() {
-      return {
-        browseResults: [],
-        query: "",
-        searchResults: [],
-        active: false,
-        activeItem: null
-      }
-    },
-    methods: {
-      search() {
-        fetch(`https://api.rockbot.com/v3/engage/search_artists?query=${this.query}`, {
-          headers
-        })
+export default {
+  name: "Search",
+  data() {
+    return {
+      browseResults: [],
+      query: "",
+      searchResults: [],
+      active: false,
+      activeItem: null,
+    };
+  },
+  methods: {
+    search() {
+      fetch(
+        `https://api.rockbot.com/v3/engage/search_artists?query=${this.query}`,
+        {
+          headers,
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
-          this.searchResults = data.response
-        })
-      },
-      browseArtists(){ 
-        // fetch and shuffle browse artist data
-        fetch("https://api.rockbot.com/v3/engage/browse_artists", {
-          headers
-        })
+          this.searchResults = data.response;
+        });
+    },
+    browseArtists() {
+      // fetch and shuffle browse artist data
+      fetch("https://api.rockbot.com/v3/engage/browse_artists", {
+        headers,
+      })
         .then((res) => res.json())
         .then((data) => {
           // shuffle full array
           for (let i = data.response.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [data.response[i], data.response[j]] = [data.response[j], data.response[i]];
+            [data.response[i], data.response[j]] = [
+              data.response[j],
+              data.response[i],
+            ];
           }
           // display 25 results
-          this.browseResults = data.response.slice(0,25)
-        })
-      },
-      setActive(index) {
-        this.active = !this.active
-        console.log(index)
-        this.activeItem = index 
-      },
-      request(artist_id) {
-        fetch(`https://api.rockbot.com/v3/engage/request_artist?artist_id=${artist_id}`, {
-          method: 'POST',
-          headers
-        })      
-        .then((res) => res.json())
-      },
+          this.browseResults = data.response.slice(0, 25);
+        });
     },
-    mounted() {
-      // render browse artists endpoint when there is no search input
-      this.browseArtists();
-    }
-  }
+    setActive(index) {
+      this.active = !this.active;
+      this.activeItem = index;
+    },
+    request(artist_id) {
+      fetch(
+        `https://api.rockbot.com/v3/engage/request_artist?artist_id=${artist_id}`,
+        {
+          method: "POST",
+          headers,
+        }
+      ).then((res) => res.json());
+    },
+  },
+  mounted() {
+    // render browse artists endpoint when there is no search input
+    this.browseArtists();
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 input {
   height: 2.5em;
   width: 18em;
@@ -150,13 +171,13 @@ h1 {
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(36, 36, 36, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .list {
   display: flex;
   flex-wrap: wrap;
-  line-height: .5;
+  line-height: 0.5;
 }
 
 .album {
@@ -188,10 +209,10 @@ h1 {
   width: 30px;
   margin-top: -235px;
   margin-right: -15px;
-  background: #56D092;
-  border: 3px solid #56D092;
+  background: #56d092;
+  border: 3px solid #56d092;
   border-radius: 100%;
-  background: '../assets/icons/plus-solid.svg'
+  background: "../assets/icons/plus-solid.svg";
 }
 
 .add:hover {
@@ -211,5 +232,4 @@ p {
   align-self: center;
   object-fit: cover;
 }
-
 </style>

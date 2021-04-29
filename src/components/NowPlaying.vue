@@ -1,24 +1,53 @@
 <template>
   <footer class="nowPlaying">
-    <img class="album" :src="nowPlaying.artwork_small">
+    <img class="album" :src="nowPlaying.artwork_small" />
     <div class="info">
-      <h4> {{nowPlaying.song}} </h4>
-      <p> {{nowPlaying.artist}}</p>
+      <h4>{{ nowPlaying.song }}</h4>
+      <p>{{ nowPlaying.artist }}</p>
     </div>
     <div class="vote">
-      <button class="like"><img class="thumb-down" src="../assets/icons/thumbs-down-regular.svg" /></button>
-      <button class="like"><img class="thumb-up" src="../assets/icons/thumbs-up-regular.svg" /></button>
+      <button class="like">
+        <img
+          class="thumb-down"
+          src="../assets/icons/thumbs-down-regular.svg"
+          v-on:click="thumbsDown(nowPlaying.pick_id)"
+        />
+      </button>
+      <button class="like">
+        <img
+          class="thumb-up"
+          src="../assets/icons/thumbs-up-regular.svg"
+          v-on:click="thumbsUp(nowPlaying.pick_id)"
+        />
+      </button>
     </div>
+    <!-- add duration / time remaining counter -->
   </footer>
 </template>
 
 <script>
+import { headers } from "../headers";
+
 export default {
-  name: 'NowPlaying',
+  name: "NowPlaying",
   props: {
-    nowPlaying: Object
-  }
-}
+    nowPlaying: Object,
+  },
+  methods: {
+    thumbsUp(pick_id) {
+      fetch(`https://api.rockbot.com/v3/engage/vote_up?pick_id=${pick_id}`, {
+        method: "POST",
+        headers,
+      }).then((res) => res.json());
+    },
+    thumbsDown(pick_id) {
+      fetch(`https://api.rockbot.com/v3/engage/vote_down?pick_id=${pick_id}`, {
+        method: "POST",
+        headers,
+      }).then((res) => res.json());
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -44,7 +73,7 @@ export default {
 .info {
   margin-left: 1em;
   font-size: 16px;
-  line-height: .5;
+  line-height: 0.5;
 }
 
 .vote {
@@ -56,9 +85,17 @@ export default {
   height: 75px;
   width: 75px;
   /* background: tomato; */
-  margin: 0 1em ;
+  margin: 0 1em;
   border: 5px solid lightgrey;
   border-radius: 100%;
+}
+
+.like:focus {
+  outline: none;
+}
+
+.like:hover {
+  cursor: pointer;
 }
 
 .thumb-down {
@@ -76,5 +113,4 @@ export default {
 h4 {
   margin: 1em 0 0 0;
 }
-
 </style>
