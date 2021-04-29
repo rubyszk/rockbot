@@ -15,7 +15,7 @@
       </ul>
     </div>    
     <div class="content">    
-    <Search v-show="currentView === 'Search'"/>
+    <Search v-show="currentView === 'Search'" />
       <div class="header">
         <img class="user-icon" src="./assets/icons/robot-solid.svg"/>
         <h5> Rockbot HQ </h5>
@@ -94,14 +94,27 @@ export default {
       })
       .then((res) => res.json())
       .then((data) => {
-        console.log('yes', data.response)
         this.topArtists = data.response
       })
-    }
-  }, 
+    },
+    // thumbsUp(){
+    //   fetch(`https://api.rockbot.com/v3/engage/vote_up?pick_id=${pick_id}`, {
+    //     method: 'POST',
+    //     headers
+    //   })
+    //   return response.json()
+    // },
+    // thumbsDown(){
+    //   fetch(`https://api.rockbot.com/v3/engage/vote_down?pick_id=${pick_id}`, {
+    //     method: 'POST',
+    //     headers
+    //   })
+    //   return response.json()
+
+    // },
+  },
   mounted() {
-      // Call on mount to fetch data
-      // (useEffect/componentDidMount)
+    // call on mount
     this.fetchNowPlaying();
     this.fetchTopArtists();
   }
@@ -124,7 +137,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: white;
   background: rgb(209,225,230);
-background: linear-gradient(4deg, rgba(33,33,33,1) 34%, rgba(96,96,96,1) 73%, rgba(154,154,154,1) 97%);
+  background: linear-gradient(4deg, rgba(33,33,33,1) 34%, rgba(96,96,96,1) 73%, rgba(154,154,154,1) 97%);
 }
 
 .header {
@@ -148,7 +161,7 @@ h5 {
 
 a:hover {
   cursor: pointer;
-  color: dodgerblue;
+  color: white;
 }
 
 ul {
@@ -157,6 +170,7 @@ ul {
 }
 li {
   padding-left: 1em;
+  color: #9A9A9A;
 }
 
 .sidebar {

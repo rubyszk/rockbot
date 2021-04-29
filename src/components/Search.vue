@@ -2,7 +2,7 @@
   <div class="main">
     <!-- add search icon -->
     <!-- bind input for search function and search on input change-->
-   <input v-model="query" type="text" placeholder="Search artists" @input="search">
+      <input v-model="query" type="text" placeholder="Search artists" @input="search">
     <h1>{{query ? 'Search Results' : 'Browse Artists'}}</h1>
     <div v-if="query">
     <div v-if="query.length > 0 && searchResults === undefined">
@@ -12,17 +12,17 @@
       <div 
         class="album"
         v-for="(item, index) in searchResults"
-        :key="index">
+        :key="index"
+        @mouseover="setActive(index)"
+        @mouseout="setActive(false)"
+        >
         <img class="artwork" :src="item.artwork_small"/>
         <div class="info">
           <div>
             <h3>{{item.artist}}</h3>
           </div>
           <div class="vote">
-            <!-- add vote count on hover -->
-            <!-- <button></button> -->
-            <img src="../assets/icons/thumbs-down-regular.svg" class="like"/>
-            <img src="../assets/icons/thumbs-up-regular.svg" class="like"/>
+            <img  v-show="activeItem === index" src="../assets/icons/plus-solid.svg" class="add" v-on:click="request(item.artist_id)"/>
           </div>
         </div>
       </div>
@@ -30,20 +30,21 @@
     </div>
     <div v-else>
     <div class="list">
+      <!-- set active class on mouseover for request btn -->
       <div 
         class="album"
         v-for="(item, index) in browseResults"
-        :key="index">
+        :key="index"
+        @mouseover="setActive(index)"
+        @mouseout="setActive(false)"
+        >
         <img class="artwork" :src="item.artwork_small"/>
-        <div class="info">
+        <div  class="info">
           <div>
             <h3>{{item.artist}}</h3>
           </div>
           <div class="vote">
-            <!-- add vote count on hover -->
-            <!-- <button></button> -->
-            <img src="../assets/icons/thumbs-down-regular.svg" class="like"/>
-            <img src="../assets/icons/thumbs-up-regular.svg" class="like"/>
+            <img v-show="activeItem === index" src="../assets/icons/plus-solid.svg" class="add" v-on:click="request(item.artist_id)"/>
           </div>
         </div>
       </div>
@@ -61,38 +62,48 @@ import { headers } from '../headers';
       return {
         browseResults: [],
         query: "",
-        searchResults: []
+        searchResults: [],
+        active: false,
+        activeItem: null
       }
-    },
-    props: {
-     
     },
     methods: {
       search() {
-      console.log(this.query)
-      fetch(`https://api.rockbot.com/v3/engage/search_artists?query=${this.query}`, {
-        headers
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        this.searchResults = data.response
-      })
-    },
+        fetch(`https://api.rockbot.com/v3/engage/search_artists?query=${this.query}`, {
+          headers
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          this.searchResults = data.response
+        })
+      },
       browseArtists(){ 
-      // fetch and shuffle browse artist data
-      fetch("https://api.rockbot.com/v3/engage/browse_artists", {
-        headers
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        // shuffle full array
-        for (let i = data.response.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [data.response[i], data.response[j]] = [data.response[j], data.response[i]];
-        }
-        // display 25 results
-        this.browseResults = data.response.slice(0,25)
-      })
+        // fetch and shuffle browse artist data
+        fetch("https://api.rockbot.com/v3/engage/browse_artists", {
+          headers
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          // shuffle full array
+          for (let i = data.response.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [data.response[i], data.response[j]] = [data.response[j], data.response[i]];
+          }
+          // display 25 results
+          this.browseResults = data.response.slice(0,25)
+        })
+      },
+      setActive(index) {
+        this.active = !this.active
+        console.log(index)
+        this.activeItem = index 
+      },
+      request(artist_id) {
+        fetch(`https://api.rockbot.com/v3/engage/request_artist?artist_id=${artist_id}`, {
+          method: 'POST',
+          headers
+        })      
+        .then((res) => res.json())
       },
     },
     mounted() {
@@ -172,10 +183,19 @@ h1 {
   display: flex;
 }
 
-.like {
-  height: 20px;
-  width: 20px;
-  margin-left: 15px;
+.add {
+  height: 30px;
+  width: 30px;
+  margin-top: -235px;
+  margin-right: -15px;
+  background: #56D092;
+  border: 3px solid #56D092;
+  border-radius: 100%;
+  background: '../assets/icons/plus-solid.svg'
+}
+
+.add:hover {
+  cursor: pointer;
 }
 
 h3 {
