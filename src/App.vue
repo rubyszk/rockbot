@@ -84,9 +84,9 @@ export default {
           this.upNext = data.response.queue;
         });
       // fetch every 30 seconds
-      window.setInterval(() => {
-        this.fetchNowPlaying()
-      }, 30000)
+      // window.setInterval(() => {
+      //   this.fetchNowPlaying()
+      // }, 30000)
     },
     fetchTopArtists() {
       fetch("https://api.rockbot.com/v3/engage/top_artists", {
